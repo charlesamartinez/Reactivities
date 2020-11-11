@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using MediatR;
+using Application.Activities;
 
 namespace API
 {
@@ -40,7 +42,7 @@ namespace API
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
-
+            services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddControllers();
         }
 
@@ -55,9 +57,7 @@ namespace API
             // app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
